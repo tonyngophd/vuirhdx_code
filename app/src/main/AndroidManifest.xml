@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-          package="com.dji.ux.sample">
+          package="com.suas.uxdual">
 
     <!-- DJI SDK need these permissions -->
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -33,15 +33,15 @@
 
         <meta-data
             android:name="com.dji.sdk.API_KEY"
-            android:value="Enter your API key here" />
+            android:value="8a89f5340c1e58e53068ea1e" />
 
         <!-- Here Maps -->
-        <meta-data android:name="com.here.android.maps.appid"
+        <!--meta-data android:name="com.here.android.maps.appid"
                    android:value="Enter your API key here"/>
         <meta-data android:name="com.here.android.maps.apptoken"
                    android:value="Enter your API key here"/>
         <meta-data android:name="com.here.android.maps.license.key"
-                   android:value="Enter your API key here"/>
+                   android:value="Enter your API key here"/-->
 
         <service
             android:name="com.here.android.mpa.service.MapService"
@@ -55,12 +55,12 @@
         <!-- Google Maps -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="Enter your API key here"/>
+            android:value="@string/google_maps_key"/>
 
         <!-- AMaps -->
-        <meta-data
+        <!--meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="Enter your API key here"/>
+            android:value="Enter your API key here"/-->
 
         <activity
             android:name=".MainActivity"
@@ -101,7 +101,8 @@
             android:launchMode = "singleTop"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/MapTheme" />
-
+        <!-- Thermal video -->
+        <service android:name=".VideoService" />
     </application>
 
 </manifest>

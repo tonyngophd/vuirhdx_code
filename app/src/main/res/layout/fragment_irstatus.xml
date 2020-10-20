@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    tools:context=".IRstatusFragment">
+
+    <TextView
+        android:id="@+id/tabnametextView"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="4dp"
+        android:text="Tablet"
+        android:textAlignment="textStart"
+        android:textColor="#60FFFFFF"
+        android:textSize="8sp" />
+
+    <TextView
+        android:id="@+id/tabbatterypercentagetextView"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tabnametextView"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="4dp"
+        android:text="---%"
+        android:textColor="#60FFFFFF"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/imageViewTabBattStatus"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="0dp"
+        android:layout_toStartOf="@+id/tabbatterypercentagetextView"
+        android:src="@drawable/ic_battery_unknown_black_48dp" />
+
+    <TextView
+        android:id="@+id/textViewsUAScom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_toStartOf="@+id/imageViewTabBattStatus"
+        android:text="sUAS.com" />
+
+    <ImageView
+        android:id="@+id/imageViewsUAScom"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="-2dp"
+        android:layout_toStartOf="@+id/textViewsUAScom"
+        android:src="@mipmap/suaslogo1"
+        android:translationY="-12dp" />
+
+    <TextView
+        android:id="@+id/irdatalinkstatus"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="2dp"
+        android:layout_toStartOf="@+id/imageViewsUAScom"
+        android:text="No IR Datalink"
+        android:textAlignment="textStart" />
+
+    <TextView
+        android:id="@+id/batterypercentagetextView"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_toStartOf="@+id/irdatalinkstatus"
+        android:text="---%" />
+
+    <ImageView
+        android:id="@+id/imageViewBattery"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="-12dp"
+        android:layout_marginEnd="0dp"
+        android:layout_toStartOf="@id/batterypercentagetextView"
+        android:rotation="270"
+        android:src="@drawable/ic_battery_0_black_48dp" />
+
+    <TextView
+        android:id="@+id/textViewVuIRbattname"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="0dp"
+        android:layout_toStartOf="@id/batterypercentagetextView"
+        android:text="VuIR"
+        android:textAlignment="center"
+        android:textColor="#60FFFFFF"
+        android:textSize="12sp" />
+</RelativeLayout>

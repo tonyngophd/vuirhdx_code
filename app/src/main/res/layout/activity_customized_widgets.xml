@@ -7,7 +7,7 @@
                 android:layout_height="match_parent"
                 android:background="#242d34"
                 android:orientation="horizontal"
-                tools:context="com.dji.ux.sample.CustomizedWidgetsActivity">
+                tools:context="com.suas.uxdual.com.suas.uxdual.CustomizedWidgetsActivity">
 
     <dji.ux.widget.FPVWidget
         android:id="@+id/fpv_custom_widget"
@@ -45,7 +45,7 @@
         android:orientation="horizontal">
 
         <!-- Show customized pre-flight status widget -->
-        <com.dji.ux.sample.custom.CustomizedPreFlightWidget
+        <com.suas.uxdual.custom.CustomizedPreFlightWidget
             android:id="@+id/status"
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -132,7 +132,7 @@
             android:layout_weight="1" />
 
         <!-- Show customized battery widget -->
-        <com.dji.ux.sample.custom.CustomizedBatteryWidget
+        <com.suas.uxdual.custom.CustomizedBatteryWidget
             android:layout_width="96dp"
             android:layout_height="22dp" />
 

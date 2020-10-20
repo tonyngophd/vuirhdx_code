@@ -1,0 +1,79 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageviewIRshot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"/>
+
+    <LinearLayout
+        android:id="@+id/mainlinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1.1">
+
+        <LinearLayout
+            android:id="@+id/videolayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.47"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <TextureView
+                android:id="@+id/textureViewThermalFrag"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.065"
+                android:translationY="8dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textviewhint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="2dp"
+        android:background="#90000000"
+        android:text="Action Hint"
+        android:textAlignment="center"
+        android:textColor="#FFFFFFFF"
+        android:textSize="12sp"
+        android:visibility="gone"
+        tools:ignore="HardcodedText" />
+    <TextView
+        android:id="@+id/textviewmode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="2dp"
+        android:background="#40004090"
+        android:text="Move/Resize"
+        android:textAlignment="center"
+        android:textColor="#FFFFFFFF"
+        android:textSize="10sp"
+        tools:ignore="HardcodedText" />
+    <TextView
+        android:id="@+id/textViewPTZintro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="1.0X"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="100dp"
+        android:visibility="invisible"/>
+</RelativeLayout>
