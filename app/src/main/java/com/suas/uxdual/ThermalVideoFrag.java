@@ -239,7 +239,7 @@ public class ThermalVideoFrag extends Fragment implements SurfaceHolder.Callback
 
             int x, y, w, h, W = bitmap.getWidth(), H = bitmap.getHeight();
             w = (int) (W * 1.1f / 1.47f); // The float numbers are from XML file (fragment_thermal_video.xml)
-            if (CompleteWidgetActivity.isBoson) {
+            if (CompleteWidgetActivity.isBoson || CompleteWidgetActivity.isBosonPi || CompleteWidgetActivity.isBosonPiM) {
                 h = (int) (H * 1.0f / 1.077f);
             } else {
                 h = (int) (H * 1.0f / 1.065f);

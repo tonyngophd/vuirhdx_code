@@ -6,6 +6,8 @@ public class IRCamera {
     public final int Tau2 = 2;
     public final int Lepton3 = 3;
     public final int Lepton35 = 4;
+    public final int BosonPi = 5;
+    public final int BosonPiMulti = 6;
     public final int Unknown = 999;
 
     private String cameraName = "Unknown";

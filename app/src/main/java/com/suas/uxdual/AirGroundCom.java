@@ -4,6 +4,8 @@ import android.util.Log;
 
 import java.nio.ByteBuffer;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 public class AirGroundCom {
     public static final byte MaxMessageLength = 25;
     public static final byte MaxGPSMessageLength = 50;
@@ -23,6 +25,35 @@ public class AirGroundCom {
     public static final byte MAPPING_MODE_CHANNEL = 50;
     public static final byte UNIX_TIME_CHANNEL = 51;
     public static final byte THERMAL_GAINMODE_CHANNEL = 31;
+    public static final byte PI_REC_CHANNEL = 55;
+    public static final byte YEAR_CHANNEL = 95;
+    public static final byte MONTH_CHANNEL = 96;
+    public static final byte DATE_CHANNEL = 97;
+    public static final byte HOUR_CHANNEL = 98;
+    public static final byte MINUTE_CHANNEL = 99;
+    public static final byte SECOND_CHANNEL = 100;
+    public static final byte SELECT_CAM_CHANNEL = 101;
+
+    /*
+    #define THERMAL_GAINMODE_CHANNEL 31
+#define IMAGE_FLIP_CHANNEL 32
+#define DIGITILT_CHANNEL 33
+#define DIGIPAN_CHANNEL 34
+#define ALERT_HOTSPOT_CHANNEL 35
+#define ALERT_LOWER_LIMIT_CHANNEL 36
+#define ALERT_UPPER_LIMIT_CHANNEL 37
+#define DDE_CHANNEL 38
+#define ACE_CHANNEL 39
+#define SSO_CHANNEL 40
+#define DVR_VIEW_CHANNEL 41
+#define INTRO_INFO_CHANNEL 42
+#define VIDEO_SOURCE_CHANNEL 43
+#define HD_CAM_ONOFF_CHANNEL 44
+#define HD_CAM_WIFI_ONOFF_CHANNEL 45
+#define HD_CAM_SWITCH_MODE_CHANNEL 46
+#define HD_CAM_SHUTTER_CHANNEL 47
+
+     */
 
     public static final boolean FAILED = false;
     public static final boolean PASSED = true;
@@ -100,7 +131,7 @@ public class AirGroundCom {
         } catch (RemoteException e) {
             e.printStackTrace();
         }*/
-        //CompleteWidgetActivity.mTcpClient.sendMessage(messageString);
+        CompleteWidgetActivity.mTcpClient.sendMessage(messageString);
         //new MainActivity.SendMessageTask().execute(messageString);
         Log.d("sendG2Amessage ", "sendG2Amessage: " + messageString);
     }
@@ -275,7 +306,7 @@ public class AirGroundCom {
         String readmsg = "";//MainActivity.MessageReceivedFromGimmera;
         int index = readmsg.indexOf(0x7E);
         int length = readmsg.length();
-        //Log.i(TAG, "readA2GMessage: index = " + index + " message = " + readmsg + " length = "+ length);
+        Log.i(TAG, "readA2GMessage: index = " + index + " message = " + readmsg + " length = "+ length);
         if (index < 0) {
             readstatus[0] = FAILED;
             return;
@@ -291,9 +322,9 @@ public class AirGroundCom {
         messagelength = intValue(message[1], message[2]);
         totallength = messagelength + 3;
 
-        //Log.i(TAG, "readA2GMessage: messagelength = " + messagelength + " totallength = " + totallength);
+        Log.i(TAG, "readA2GMessage: messagelength = " + messagelength + " totallength = " + totallength);
 
-        if (length < 14) {
+        if(length < 14){
             readstatus[0] = FAILED;
             return;
         }
@@ -314,14 +345,14 @@ public class AirGroundCom {
             int checksum_read = message[totallength - 1] + message[totallength];
             if ((checksum_cal == checksum_read) && (message[0] == 0x7E)) {
                 //Serial.println(message[3], HEX);
-                //Log.i(TAG, "readA2GMessage: checksum_cal = " + checksum_cal);
+                Log.i(TAG, "readA2GMessage: checksum_cal = " + checksum_cal);
                 if (message[3] == 0x01) {
                     signalValue = intValue(message[totallength - 3], message[totallength - 2]);
                     if (Math.abs(signalValue) > 127) {
                         readstatus[0] = FAILED;
                         return;
                     }
-                    //Log.i(TAG, "readA2GMessage: Signal Value = " + signalValue);
+                    Log.i(TAG, "readA2GMessage: Signal Value = " + signalValue);
                     readstatus[0] = PASSED;
                     signalValueout[0] = signalValue;
                     PINOUT[0] = message[totallength - 4];
@@ -355,4 +386,3 @@ public class AirGroundCom {
         }
     }
 }
-

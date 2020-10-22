@@ -419,7 +419,7 @@ public class ScreenRecordingFragment extends Fragment {
             w = (int) (W / 1.61f);
             x = (W - w) / 2;
             y = 16; // from 16dp to pixels, android:translationY="16dp" //TODO: set this value correctly depending on screen size
-            if(CompleteWidgetActivity.isBoson){
+            if(CompleteWidgetActivity.isBoson  || CompleteWidgetActivity.isBosonPi || CompleteWidgetActivity.isBosonPiM){
                 h = (int) ((H / 1.077f) - y); //512
             } else {
                 h = (int) ((H / 1.065f) - y); //512

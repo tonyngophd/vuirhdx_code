@@ -199,6 +199,8 @@ public class CompleteWidgetActivity extends Activity {
     ToggleButton toggle24Freg;
     float BatteryVoltagePercent;
     static boolean isBoson = false;
+    static boolean isBosonPi = false;
+    static boolean isBosonPiM = false;
     static boolean recordVoice = true;
     private ScreenRecordingFragment screenRecordingFragment = new ScreenRecordingFragment();
     private FullScreenShotFragment fullScreenShotFragment = new FullScreenShotFragment();
@@ -804,9 +806,29 @@ public class CompleteWidgetActivity extends Activity {
             public void onCheckedChanged(RadioGroup radioGroup, int checkedID) {
                 if (checkedID == R.id.radioButtonBoson) {
                     isBoson = true;
+                    isBosonPi = false;
+                    isBosonPiM = false;
+                } else if (checkedID == R.id.radioButtonBosonPi) {
+                    isBoson = true;
+                    isBosonPi = true;
+                    isBosonPiM = false;
+                } else if (checkedID == R.id.radioButtonBosonPiM) {
+                    isBoson = true;
+                    isBosonPi = false;
+                    isBosonPiM = true;
                 } else {
                     isBoson = false;
+                    isBosonPi = false;
+                    isBosonPiM = false;
                 }
+
+                setButtonVisibility(isBoson || isBosonPi || isBosonPiM);
+
+//                if (checkedID == R.id.radioButtonBoson) {
+//                    isBoson = true;
+//                } else {
+//                    isBoson = false;
+//                }
                 //setButtonVisibility(isBoson);
             }
         });
@@ -1110,7 +1132,7 @@ public class CompleteWidgetActivity extends Activity {
     static Bitmap djiBitmap;
 
     public void setButtonVisibility(boolean isBoson) {
-        if (isBoson) {
+        if (isBoson || isBosonPi || isBosonPiM) {
             gainseekBar.setVisibility(View.VISIBLE);
             imageViewgainbkg.setVisibility(View.VISIBLE);
         } else {
@@ -1470,7 +1492,7 @@ public class CompleteWidgetActivity extends Activity {
         buttonMSX.setVisibility(visibility);
         buttonMSXoverlaymode.setVisibility(visibility);
         buttonMSXAutoSwitch.setVisibility(visibility);
-        if (!isBoson || (seekbarPalette.getMax() < 9)) {
+        if (!(isBoson  || isBosonPi || isBosonPiM) || (seekbarPalette.getMax() < 9)) {
             gainseekBar.setVisibility(View.GONE);
             imageViewgainbkg.setVisibility(View.GONE);
         } else {
@@ -1619,20 +1641,32 @@ public class CompleteWidgetActivity extends Activity {
             Log.d(TAG, "onProgressUpdate: message = " + message);
             if (message.contains("VOL")) {
                 try {
+                    //BatteryVoltage = Float.valueOf(message.substring(3));
                     BatteryVoltagePercent = Float.valueOf(message.substring(3));
-                    //Log.i(TAG, "run: onProgressUpdate BatteryVoltagePercent = " + BatteryVoltagePercent);
                     displayIRBatteryPercentage(BatteryVoltagePercent);
                 } catch (NumberFormatException e) {
-                    Log.e(TAG, "onProgressUpdate: exception, can't read number" + message);
+                    try {
+                        //BatteryVoltage = Float.valueOf(message.substring(3));
+                        BatteryVoltagePercent = Float.valueOf(message.substring(4));
+                        displayIRBatteryPercentage(BatteryVoltagePercent);
+                    } catch (NumberFormatException e1) {
+                        Log.e(TAG, "onProgressUpdate: exception, can't read number" + message);
+                    }
                 }
+                Log.d(TAG, "onProgressUpdate: BatteryVoltagePercent = " + BatteryVoltagePercent);
+
                 //StatusBarFrag.UpdateStatusBar();
             }
-            if (message.contains("SAT")) {
-                try {
-                    //NumberofSats = Integer.valueOf(message.substring(3));
-                } catch (NumberFormatException e) {
-                    Log.e(TAG, "onProgressUpdate: exception, can't read number" + message);
-                }
+            if (message.contains("SAT")) { //NO need the SATS here as the drone will show SATS
+//                try {
+////                    NumberofSats = Integer.valueOf(message.substring(3));
+////                } catch (NumberFormatException e) {
+////                    try {
+////                        NumberofSats = Integer.valueOf(message.substring(4));
+////                    } catch (NumberFormatException e1) {
+////                        Log.e(TAG, "onProgressUpdate: exception, can't read number" + message);
+////                    }
+////                }
                 //StatusBarFrag.UpdateStatusBar();
             }
 
@@ -1670,6 +1704,138 @@ public class CompleteWidgetActivity extends Activity {
                     /*if (FullScreenVideoActivity.vidrecSurfaceview != null) {
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
                         params.weight = 1.61f;
+                        FullScreenVideoActivity.vidrecSurfaceview.setLayoutParams(params);
+                        FullScreenVideoActivity.vidrecSurfaceview.setZ(10f);
+                    }*/
+
+                    if (imageViewRecord != null) {
+                        if (imageViewRecord.getVisibility() == View.VISIBLE) {
+                            imageViewRecord.setVisibility(View.INVISIBLE);
+                        }
+                    }
+
+                    if (seekBarIRTilt != null) {
+                        if (seekBarIRTilt.getMax() < 250) {
+                            seekBarIRTilt.setMax(250);
+                            seekBarIRTilt.setProgress(125);
+                            AirGroundCom.sendG2Amessage(125, AirGroundCom.TILT_CHANNEL);
+                        }
+                    }
+
+                    if (seekbarPalette != null) {
+                        if (seekbarPalette.getMax() < 9) {
+                            seekbarPalette.setMax(9);
+                            RelativeLayout.LayoutParams seekBarparams = (RelativeLayout.LayoutParams) seekbarPalette.getLayoutParams();
+                            seekBarparams.width = (int) (DensityUtil.dip2px(getApplicationContext(), 117) * 10f / 3);
+                            seekbarPalette.setLayoutParams(seekBarparams);
+                            if (imageViewPaletteSbBg != null) {
+                                imageViewPaletteSbBg.setImageResource(R.drawable.bosonpalettes);
+                                RelativeLayout.LayoutParams imageparams = (RelativeLayout.LayoutParams) imageViewPaletteSbBg.getLayoutParams();
+                                imageparams.width = (int) (DensityUtil.dip2px(getApplicationContext(), 117) * 10f / 3);
+                                imageViewPaletteSbBg.setLayoutParams(imageparams);
+                            }
+                        }
+                    }
+                } if (message.contains("BoP")) {
+                    if (irCamera == null) {
+                        irCamera = new IRCamera();
+                    }
+                    int[] resolution = {320, 256};
+                    try {
+                        //TODO make this resolution setting work better
+                        resolution[0] = Integer.valueOf(message.substring(3, 6));
+                        if (resolution[0] == 640) resolution[1] = 512;
+                        else if (resolution[0] == 160) resolution[1] = 120;
+                        else {
+                            resolution[0] = 320;
+                        }
+                        Log.i(TAG, "run: onProgressUpdate Resolution = " + resolution[0]);
+                    } catch (NumberFormatException ignored) {
+                    }
+                    irCamera.setIRCamera("BosonPi", irCamera.BosonPi, 0, resolution);
+                    if (radiovisibility != null) {
+                        radiovisibility.check(R.id.radioButtonBosonPi);
+                    }
+                    if (videolayout != null) {
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
+                        params.weight = 1.565f;
+                        Log.i(TAG, "run: reset to 1.57f");
+                        videolayout.setLayoutParams(params);
+                        if (textureViewThermalFrag != null) {
+                            LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+                            params1.weight = 1.00f;
+                            textureViewThermalFrag.setLayoutParams(params1);
+                        }
+                    }
+                    /*if (FullScreenVideoActivity.vidrecSurfaceview != null) {
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
+                        params.weight = 1.565f;
+                        FullScreenVideoActivity.vidrecSurfaceview.setLayoutParams(params);
+                        FullScreenVideoActivity.vidrecSurfaceview.setZ(10f);
+                    }*/
+
+                    if (imageViewRecord != null) {
+                        if (imageViewRecord.getVisibility() == View.VISIBLE) {
+                            imageViewRecord.setVisibility(View.INVISIBLE);
+                        }
+                    }
+
+                    if (seekBarIRTilt != null) {
+                        if (seekBarIRTilt.getMax() < 250) {
+                            seekBarIRTilt.setMax(250);
+                            seekBarIRTilt.setProgress(125);
+                            AirGroundCom.sendG2Amessage(125, AirGroundCom.TILT_CHANNEL);
+                        }
+                    }
+
+                    if (seekbarPalette != null) {
+                        if (seekbarPalette.getMax() < 9) {
+                            seekbarPalette.setMax(9);
+                            RelativeLayout.LayoutParams seekBarparams = (RelativeLayout.LayoutParams) seekbarPalette.getLayoutParams();
+                            seekBarparams.width = (int) (DensityUtil.dip2px(getApplicationContext(), 117) * 10f / 3);
+                            seekbarPalette.setLayoutParams(seekBarparams);
+                            if (imageViewPaletteSbBg != null) {
+                                imageViewPaletteSbBg.setImageResource(R.drawable.bosonpalettes);
+                                RelativeLayout.LayoutParams imageparams = (RelativeLayout.LayoutParams) imageViewPaletteSbBg.getLayoutParams();
+                                imageparams.width = (int) (DensityUtil.dip2px(getApplicationContext(), 117) * 10f / 3);
+                                imageViewPaletteSbBg.setLayoutParams(imageparams);
+                            }
+                        }
+                    }
+                } if (message.contains("BPM")) {
+                    if (irCamera == null) {
+                        irCamera = new IRCamera();
+                    }
+                    int[] resolution = {320, 256};
+                    try {
+                        //TODO make this resolution setting work better
+                        resolution[0] = Integer.valueOf(message.substring(3, 6));
+                        if (resolution[0] == 640) resolution[1] = 512;
+                        else if (resolution[0] == 160) resolution[1] = 120;
+                        else {
+                            resolution[0] = 320;
+                        }
+                        Log.i(TAG, "run: onProgressUpdate Resolution = " + resolution[0]);
+                    } catch (NumberFormatException ignored) {
+                    }
+                    irCamera.setIRCamera("BosonPiMulti", irCamera.BosonPiMulti, 0, resolution);
+                    if (radiovisibility != null) {
+                        radiovisibility.check(R.id.radioButtonBosonPiM);
+                    }
+                    if (videolayout != null) {
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
+                        params.weight = 1.2345679f;
+                        Log.i(TAG, "run: reset to width = 1.234567..");
+                        videolayout.setLayoutParams(params);
+                        if (textureViewThermalFrag != null) {
+                            LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+                            params1.weight = 1.00f;
+                            textureViewThermalFrag.setLayoutParams(params1);
+                        }
+                    }
+                    /*if (FullScreenVideoActivity.vidrecSurfaceview != null) {
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
+                        params.weight = 1.2345679f;
                         FullScreenVideoActivity.vidrecSurfaceview.setLayoutParams(params);
                         FullScreenVideoActivity.vidrecSurfaceview.setZ(10f);
                     }*/
@@ -2424,7 +2590,7 @@ public class CompleteWidgetActivity extends Activity {
             //TODO need to receive confirmation from air end if zoom is available
             //FullScreenVideoActivity.ScaleVideo(realScaleFactor); // Let's just still do real
             //ScaleVideo(realScaleFactor);
-            if (isBoson) {//TODO: allow user to choose between tablet screen zooming and IR camera zooming
+            if (isBoson || isBosonPi || isBosonPiM) {//TODO: allow user to choose between tablet screen zooming and IR camera zooming
                 ScaleVideo(mScaleFactor, VideoFocusX, VideoFocusY);
             } else {
                 ScaleVideo(realScaleFactor, VideoFocusX, VideoFocusY);

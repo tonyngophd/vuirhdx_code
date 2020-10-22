@@ -416,6 +416,22 @@
             android:visibility="gone" />
 
         <RadioButton
+            android:id="@+id/radioButtonBosonPi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="Visibility"
+            android:visibility="gone" />
+
+        <RadioButton
+            android:id="@+id/radioButtonBosonPiM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="Visibility"
+            android:visibility="gone" />
+
+        <RadioButton
             android:id="@+id/radioButtonVuePro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
