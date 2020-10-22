@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
+import android.hardware.HardwareBuffer;
 import android.hardware.display.DisplayManager;
 import android.hardware.display.VirtualDisplay;
 import android.media.Image;
@@ -78,7 +79,6 @@ public class FullScreenShotFragment extends Fragment {
     private MediaProjectionCallback mMediaProjectionCallback;
     @SuppressLint("StaticFieldLeak")
     static Button mButton;
-    private ImageReader imageReader;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static final int REQUEST_PERMISSIONS = 10;
     static boolean makeVideoThumbNail = false;
@@ -232,7 +232,10 @@ public class FullScreenShotFragment extends Fragment {
         mMediaProjection = mProjectionManager.getMediaProjection(resultCode, data);
         mMediaProjection.registerCallback(mMediaProjectionCallback, null);
         //imageReader = ImageReader.newInstance(DISPLAY_WIDTH, DISPLAY_HEIGHT, PixelFormat.RGBA_8888, 2);//ImageFormat.JPEG, 2);
-        imageReader = ImageReader.newInstance(DISPLAY_WIDTH, DISPLAY_HEIGHT, ImageFormat.FLEX_RGBA_8888, 2);//ImageFormat.JPEG, 2);
+        ImageReader imageReader = ImageReader.newInstance(DISPLAY_WIDTH, DISPLAY_HEIGHT,
+                ImageFormat.FLEX_RGBA_8888, 2,
+                HardwareBuffer.USAGE_VIDEO_ENCODE);//ImageFormat.JPEG, 2);
+        //imageReader = ImageReader.newInstance(DISPLAY_WIDTH, DISPLAY_HEIGHT, ImageFormat.JPEG, 2);//ImageFormat.JPEG, 2);
         mVirtualDisplay = createVirtualDisplaySnapshot(imageReader.getSurface());
         Log.i(TAG, String.format("onActivityResult: DISPLAY_WIDTH = %d, DISPLAY_HEIGHT = %d", DISPLAY_WIDTH, DISPLAY_HEIGHT));
 

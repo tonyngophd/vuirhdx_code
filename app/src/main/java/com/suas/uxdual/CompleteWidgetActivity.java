@@ -11,6 +11,7 @@ import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -251,7 +252,6 @@ public class CompleteWidgetActivity extends Activity {
         screenshotpreview = (ImageView) findViewById(R.id.screenshotpreview);
         screenshotpreviewlayout = (RelativeLayout) findViewById(R.id.screenshotpreviewlayout);
 
-
         seekBarIRTransparency.setProgress(100);
         seekBarIRTilt.setProgress(seekBarIRTilt.getMax() / 2);
 
@@ -263,6 +263,11 @@ public class CompleteWidgetActivity extends Activity {
         dp2px = DensityUtil.px2dip(this, 8);
 
         parentView = findViewById(R.id.root_view);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForegroundService(new Intent(this, ScreenRecService.class));
+        }
+
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -273,7 +278,7 @@ public class CompleteWidgetActivity extends Activity {
                 deviceHeight = parentView.getHeight();
                 deviceWidth = parentView.getWidth();
                 //Log.i(TAG, "onCreate postdelayed: deviceHeight = " + deviceHeight + " deviceWidth = " + deviceWidth);
-                confirmUpdateTheApp();
+                //confirmUpdateTheApp();
                 confirmUsingTheApp();
                 //showToast("onCreate: deviceHeight = " + deviceHeight + " deviceWidth = " + deviceWidth);
             }
@@ -633,7 +638,10 @@ public class CompleteWidgetActivity extends Activity {
 
                 takeScreenshot(RECscreen == 1);
                 if (RECscreen != 1) {//Exclude full screenshot while full-screen recording as it will crash the app
-                    FullScreenShotFragment.mButton.performClick(); //TODO: make fullscreenshot available while full-screen recording
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                        FullScreenShotFragment.mButton.performClick(); //TODO: make fullscreenshot available while full-screen recording
+                    }
+                    //Todo: make this work OK in Android 10
                 }
                 mPlayer.start(); // Make camera shutter sound
                 Handler handler1 = new Handler();

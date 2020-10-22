@@ -207,7 +207,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Popu
                 //loginAccount(); //Just disable this Data collecting piece!
                 DJISDKManager.getInstance().startConnectionToProduct();
 
-                Toast.makeText(getApplicationContext(), "Registration succeeded!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Registration succeeded!", Toast.LENGTH_LONG).show();
             } else {
 
                 Toast.makeText(getApplicationContext(),"Registration failed, connect to internet and retry!", Toast.LENGTH_LONG).show();

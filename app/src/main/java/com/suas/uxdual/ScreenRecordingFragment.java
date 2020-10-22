@@ -264,7 +264,15 @@ public class ScreenRecordingFragment extends Fragment {
             mMediaRecorder.stop();
             mMediaRecorder.reset();
             Log.v(TAG, "Stopping Recording");
-            stopScreenSharing();
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                // https://stackoverflow.com/questions/58791474/api-level-29-mediaprojection-is-always-requesting-permission
+                // For Q (android 10) or above, our temporary solution is to NOT stop screen sharing to reuse everything
+                // The reason is for Android to NOT re-poping the security question again, which annoys users
+                // The security questions just needs to be asked once in a session of FullScreenActivity only.
+                // Subsequence screen recording should happen smoothly without the question being popped again
+                // TODO: in the future, for Android Q and above, look for a way to stop screen share to reduce pending resources
+                stopScreenSharing();
+            }
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

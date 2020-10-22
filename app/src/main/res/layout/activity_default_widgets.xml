@@ -44,7 +44,7 @@
 
     </RelativeLayout>
 
-    <FrameLayout
+    <!--FrameLayout
         android:id="@+id/secondary_video_view"
         android:layout_width="230dp"
         android:layout_height="154dp"
@@ -60,7 +60,7 @@
             android:layout_height="match_parent"
             custom:sourceCameraNameVisibility="true"
             custom:videoSource="secondary" />
-    </FrameLayout>
+    </FrameLayout-->
 
     <dji.ux.workflow.CompassCalibratingWorkFlow
         android:layout_width="match_parent"
